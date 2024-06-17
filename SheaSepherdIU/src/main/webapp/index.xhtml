@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+	<h:head>
+	    <h:outputStylesheet library="css" name="style.css"/>
+	    <title>Shea Sepherd</title>
+	</h:head>
+	<h:body>
+	
+		<!-- Einbinden der Navigationsleiste -->
+	    <ui:include src="navbar.xhtml" />
+	    
+	    <!-- Hauptinhalt -->
+	    <div class="main-content">
+	    
+	        <p:panelGrid columns="2" columnClasses="ui-lg-6" layout="grid">
+			    <p:graphicImage library="images" name="Geisternetze.png" alt="Bild" styleClass="geisternetzBild"/>
+			    <div>
+			        <strong>Willkommen bei unserem Einsatz für die Ozeane!</strong>
+			        <p>Geisternetze, verlorene oder absichtlich entsorgte Fischernetze, sind eine unsichtbare Bedrohung für unsere Meeresbewohner. Sie treiben jahrelang unbeaufsichtigt im Wasser, verfangen Fische, Meeressäuger und sogar Korallenriffe in einem tödlichen Griff. Diese vergessenen Fallen zerstören nicht nur das marine Ökosystem, sondern tragen auch zu den ernsthaften Problemen der Meeresverschmutzung und -verschwendung bei.</p>
+			        <p>Auf unserer Webseite bieten wir Ihnen die Möglichkeit, Geisternetze zu melden, damit sie sicher und effizient entfernt werden können. Durch Ihre Meldung tragen Sie dazu bei, das marine Leben zu schützen und die Gesundheit unserer Ozeane zu erhalten.</p>
+			        <p>Möchten Sie noch einen Schritt weiter gehen? Engagierte Helfer können sich als Bergende registrieren. Ob Taucher, Fischer oder einfach nur ein Freund der Meere – Ihre Bemühungen helfen, unsere Gewässer von diesen tödlichen Gefahren zu befreien.</p>
+			        <p>Schließen Sie sich uns an – melden Sie ein Geisternetz oder registrieren Sie sich als Bergende-Person.</p>
+			        <p>Viele Grüße, Ihr Shea-Sepherd-Team</p>
+    			</div>
+			</p:panelGrid>        
+	    </div>
+	    
+	    <!-- Einbinden des Footers -->
+	    <ui:include src="footer.xhtml" />
+	</h:body>
+</html>

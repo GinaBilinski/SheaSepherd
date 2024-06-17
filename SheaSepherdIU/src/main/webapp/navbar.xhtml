@@ -1,0 +1,44 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <!-- Titel und Logo Bereich -->
+    <div class="brand-bar">
+        <h:link outcome="index.xhtml" styleClass="brand-link">
+            <h:graphicImage library="images" name="logo.png" styleClass="logoNavbar"/>
+            <h:outputText value="Shea Sepherd" styleClass="brand-name"/>
+        </h:link>
+    </div> 
+
+    <!-- Navigationsleiste mit Links -->
+    <div class="navbar">
+        <p:menubar>
+            <p:menuitem value="Geisternetze melden" outcome="geisternetzeMelden"/>
+            <p:menuitem value="Geisternetze bergen" outcome="geisternetzeBergen" />
+            <p:menuitem value="Über uns" outcome="ueberUns"/>
+            <p:menuitem value="Kontakt" outcome="kontakt"/>
+          
+            <f:facet name="options">
+                <h:form>
+                    <!-- Logout-Button wird angezeigt, wenn der Nutzer eingeloggt ist -->
+                    <p:commandButton value="Logout" 
+                                     action="#{benutzerSession.logout}" 
+                                     rendered="#{benutzerSession.istEingeloggt()}" 
+                                     ajax="false" 
+                                     styleClass="ui-button-raised ui-button-warning" />
+
+                    <!-- Login-Button wird angezeigt, wenn der Nutzer nicht eingeloggt ist -->
+                    <p:commandButton value="Login / Registrierung" 
+                                     action="login?faces-redirect=true" 
+                                     rendered="#{not benutzerSession.istEingeloggt()}"
+                                     ajax="false" 
+                                     styleClass="ui-button-raised ui-button-warning" />
+                </h:form>
+            </f:facet>
+        </p:menubar>
+    </div>
+</ui:composition>
+
+

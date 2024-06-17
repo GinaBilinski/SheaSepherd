@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+	<h:head>
+	    <h:outputStylesheet library="css" name="style.css"/>
+	    <title>Shea Sepherd</title>
+	</h:head>
+	<h:body>
+	
+		<!-- Einbinden der Navigationsleiste -->
+    	<ui:include src="navbar.xhtml" />
+    
+    	<!-- Hauptinhalt -->
+    	<div class="main-content">
+    
+    	   <!-- Formular für die Eingabe der Daten zum Geisternetz -->
+		   <h:form style="max-width: 1000px; margin: auto;">
+       		
+           		<div style="padding: 16px;"> 
+      				 <p:outputLabel value="Geisternetz melden:" style="font-size: larger; display: block; font-weight: bold;"/>
+      				 
+      				 <p:outputLabel value="Mit * gekennzeichnete Felder müssen ausgefüllt werden." style="font-size: small;"/>
+   				</div>
+    			
+		        <p:panelGrid columns="4" columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4" layout="grid" styleClass="ui-fluid">
+		            <h:outputLabel for="vorname" value="Vorname:*" />
+		            <p:inputText id="vorname" value="#{geisternetzController.meldendePerson.vorname}" required="true" />
+		
+		            <h:outputLabel for="nachname" value="Nachname:*" />
+		            <p:inputText id="nachname" value="#{geisternetzController.meldendePerson.nachname}" required="true" />
+		
+		            <h:outputLabel for="telefonnummer" value="Telefonnummer:" />
+		            <p:inputText id="telefonnummer" value="#{geisternetzController.meldendePerson.telefonnummer}" />
+		            
+		            <h:outputLabel for="gesichtetAm" value="Gesichtet am:*" />
+					<p:calendar id="gesichtetAm" value="#{geisternetzController.geisternetz.gesichtetAm}" navigator="true" pattern="dd.MM.yyyy" maxdate="#{geisternetzController.heutigesDatum}" required="true" />
+		
+		            <h:outputLabel for="laengengrad" value="Längengrad:*" />
+		            <p:inputText id="laengengrad" value="#{geisternetzController.geisternetz.laengengrad}" required="true" placeholder="0.0" />
+		
+		            <h:outputLabel for="breitengrad" value="Breitengrad:*" />
+		            <p:inputText id="breitengrad" value="#{geisternetzController.geisternetz.breitengrad}" required="true" placeholder="0.0" />
+		
+		            <h:outputLabel for="groesse" value="Größe (in m²):*" />
+		            <p:spinner id="groesse" value="#{geisternetzController.geisternetz.groesse}" min="0" required="true" upButtonStyleClass="ui-button-warning" downButtonStyleClass="ui-button-warning"/>		
+				</p:panelGrid>
+			
+             	<p:row>
+             		<!-- Button zur Einreichung des Formulars -->
+            		<p:commandButton value="Geisternetz melden" action="#{geisternetzController.saveGeisternetz}" styleClass="meldenButton ui-button-raised ui-button-warning"/>
+        		</p:row>        
+    		</h:form>        
+    	</div>
+    	
+   	 	<!-- Einbinden des Footers -->
+    	<ui:include src="footer.xhtml" />
+	</h:body>
+</html>

@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+	<h:head>
+	    <h:outputStylesheet library="css" name="style.css"/>
+	    <title>Shea Sepherd</title>
+	</h:head>
+	<h:body>
+	
+		<!-- Einbinden der Navigationsleiste -->
+	    <ui:include src="navbar.xhtml" />
+	    
+	    <!-- Hauptinhalt -->
+	    <div class="main-content">
+	    
+	    	<!-- Zwei Tabs für Registrierung und Login -->
+	  	    <p:tabView>
+	  	    
+	  	    	<!-- Tab Ansicht mit Formular für Login -->
+	   			<p:tab title="Login">
+			        <h:form id="login">
+			            <h:panelGrid columns="2">
+			                <h:outputLabel for="telefonnummer" value="Telefonnummer:" />
+			                <p:inputText id="telefonnummer" value="#{loginController.bergendePerson.telefonnummer}" />
+			                
+			                <h:outputLabel for="passwort" value="Passwort:" />
+			                <p:password id="passwort" value="#{loginController.bergendePerson.passwort}" feedback="true" />
+			            </h:panelGrid>
+			            
+			            <!-- Hinweistext wenn Login fehlgeschlagen -->
+			            <p:messages id="loginMessages" showDetail="true" styleClass="custom-messages" />
+			            <p:commandButton value="Login" action="#{loginController.loginPerson}" styleClass="meldenButton ui-button-raised ui-button-warning" update="loginMessages" />
+			        </h:form>
+				</p:tab>
+				
+				<!-- Tab Ansicht mit Formular für Registrierung -->
+				<p:tab title="Registrierung">
+			        <h:form id="registrierung">
+			            <h:panelGrid columns="2">
+			           		<h:outputLabel for="vorname" value="Vorname:" />
+			                <p:inputText id="vorname" value="#{loginController.bergendePerson.vorname}" required="true" requiredMessage="Vorname ist erforderlich." />
+			                
+			                <h:outputLabel for="nachname" value="Nachname:" />
+			                <p:inputText id="nachname" value="#{loginController.bergendePerson.nachname}" required="true" requiredMessage="Nachname ist erforderlich." />
+			                
+			                <h:outputLabel for="telefonnummer" value="Telefonnummer:" />
+			                <p:inputText id="telefonnummer" value="#{loginController.bergendePerson.telefonnummer}" validatorMessage="Bitte geben Sie eine gültige Telefonnummer an" required="true" requiredMessage="Eine gültige Telefonnummer ist erforderlich.">
+    							<f:validateRegex pattern="^\d+$" />
+							</p:inputText>
+			           
+			                <h:outputLabel for="passwort" value="Passwort:" />
+			                <p:password id="passwort" value="#{loginController.bergendePerson.passwort}" required="true" requiredMessage="Ein Passwort ist erforderlich." feedback="true" />
+			            </h:panelGrid>
+			            
+			            <!-- Hinweistext wenn Registrierung fehlschlaegt -->
+			            <p:messages id="registrierungMessages"  showDetail="true" styleClass="custom-messages" />
+			            <p:commandButton value="Registrierung" action="#{loginController.savePerson}" styleClass="meldenButton ui-button-raised ui-button-warning" update="registrierungMessages, registrierung" />
+			        </h:form>
+				</p:tab>
+			</p:tabView> 
+	    </div>
+	    
+	    <!-- Einbinden des Footers -->
+	    <ui:include src="footer.xhtml" />
+	</h:body>
+</html>

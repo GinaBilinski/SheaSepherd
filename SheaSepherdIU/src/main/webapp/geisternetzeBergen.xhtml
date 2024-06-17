@@ -1,0 +1,155 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+	<h:head>
+	    <h:outputStylesheet library="css" name="style.css"/>
+	    <title>Shea Sepherd</title>
+	</h:head>
+	<h:body>
+	
+		<!-- Einbinden der Navigationsleiste -->
+    	<ui:include src="navbar.xhtml" />
+    
+    	<!-- Hauptinhalt -->
+    	<div class="main-content">
+    	
+  			<!-- Willkommensnachricht oder Aufforderung zum Einloggen -->
+			<div style="padding: 16px;"> 
+		  		<!-- Zeigt den Namen der eingeloggten Person an -->
+		        <p:outputLabel value="Guten Tag, #{benutzerSession.eingeloggtePerson.vorname} #{benutzerSession.eingeloggtePerson.nachname}" 
+		                       rendered="#{benutzerSession.istEingeloggt()}"
+		                       style="font-size: larger; display: block; font-weight: bold;"/>
+		 		<!-- Hinweismeldung falls Benutzer nicht eingeloggt ist -->
+		        <h:outputText value="Sie müssen sich erst einloggen." 
+		                      rendered="#{not benutzerSession.istEingeloggt()}" 
+		                      style="font-size: larger; display: block; font-weight: bold; color: red;"/>
+   		 	</div>
+   		 	
+	    	<!-- Tab Ansicht für verschiedene Informationen -->
+		    <p:tabView>
+			    <!-- AJAX-Ereignis beim Wechseln der Tabs -->
+			    <p:ajax event="tabChange" listener="#{geisternetzController.aktualisiereListen}" update="geisternetzForm, meineGeisternetzeForm" />
+	    	
+		    	<!-- Erster Tab mit einer Liste aller Geisternetze -->
+		    	<p:tab title="Liste">
+					<h:form id="geisternetzForm" rendered="#{benutzerSession.istEingeloggt()}">
+    					<p:dataTable id="geisternetzListe" value="#{geisternetzController.geisternetzeList}" var="geisternetz" sortBy="#{geisternetz.id}" sortOrder="descending" >
+			           
+				            <!-- Verschiedene Spalten mit Informationen zu jedem Geisternetz -->
+				            <p:column headerText="Nr.">
+				                <h:outputText value="#{geisternetz.id}" />
+				            </p:column>
+				          	<p:column headerText="Gesichtet am">
+	    						<h:outputText value="#{geisternetz.gesichtetAm}" >
+	        						<f:convertDateTime pattern="dd.MM.yyyy"/>
+	   							</h:outputText>
+							</p:column> 
+				            <p:column headerText="Breitengrad">
+				                <h:outputText value="#{geisternetz.breitengrad}" />
+				            </p:column>
+				            <p:column headerText="Längengrad">
+				                <h:outputText value="#{geisternetz.laengengrad}" />
+				            </p:column>
+				            <p:column headerText="Größe">
+				                <h:outputText value="#{geisternetz.groesse} m²" />
+				            </p:column>
+				             <p:column headerText="Status" id="statusSpalte">
+				                <h:outputText value="#{geisternetz.status}" />
+				            </p:column> 
+			            
+			              	<!-- Spalte für Aktionen zur Statusänderung -->
+							<p:column headerText="Aktion wählen:">
+							    <h:selectOneMenu value="#{geisternetzController.ausgewaehlteStatusMap[geisternetz.id]}"
+							                     disabled="#{geisternetz.status eq 'Geborgen' or geisternetz.status eq 'Verschollen'}">
+							        <f:selectItem itemValue="NONE" itemLabel="Aktion wählen" />
+							        
+							        <!-- "Bergung" ist nicht auswählbar, wenn der Status bereits "Bergung", "Verschollen" oder "Geborgen" ist -->
+							        <f:selectItem itemValue="Bergung" itemLabel="Bergung"/>
+							                      
+							        <!-- "Verschollen" ist nur auswählbar, wenn der Status "Bergung" ist -->
+							        <f:selectItem itemValue="Verschollen" itemLabel="Verschollen"/>
+							    </h:selectOneMenu>
+							    <h:commandButton value="Bestätigen" action="#{geisternetzController.statusAktualisieren(geisternetz)}"
+							                     disabled="#{geisternetz.status eq 'Geborgen' or geisternetz.status eq 'Verschollen'}">
+							        <f:ajax execute="@form" render="@form" />
+							    </h:commandButton>
+							</p:column>
+
+						    <!-- Spalte mit Name und Telefonnummer der Bergenden Person -->
+  							<p:column headerText="Bergende Person">
+			                    <h:outputText value="#{geisternetz.bergendePerson.vorname} #{geisternetz.bergendePerson.nachname} (#{geisternetz.bergendePerson.telefonnummer})"
+			                                  rendered="#{not empty geisternetz.bergendePerson}" />
+			                    <h:outputText value="Noch nicht zugewiesen"
+			                                  rendered="#{empty geisternetz.bergendePerson}" />
+                			</p:column>
+			        	</p:dataTable>
+			    	</h:form>
+	        	</p:tab>
+	 
+	        	<!-- Zweiter Tab für die vom Benutzer bergenden Geisternetze -->
+				<p:tab title="Meine Liste">        
+				    <h:form id="meineGeisternetzeForm" rendered="#{benutzerSession.istEingeloggt()}">
+				        <p:dataTable var="geisternetz"
+				                     value="#{geisternetzController.geisternetzeBergendePerson}"
+				                     rendered="#{benutzerSession.istEingeloggt()}">
+				
+							<!-- Verschiedene Spalten mit Informationen zu jedem Geisternetz -->
+				            <p:column headerText="Nr.">
+				                <h:outputText value="#{geisternetz.id}" />
+				            </p:column>
+				            <p:column headerText="Gesichtet am">
+				                <h:outputText value="#{geisternetz.gesichtetAm}">
+				                    <f:convertDateTime pattern="dd.MM.yyyy"/>
+				                </h:outputText>
+				            </p:column>
+				            <p:column headerText="Breitengrad">
+				                <h:outputText value="#{geisternetz.breitengrad}" />
+				            </p:column>
+				            <p:column headerText="Längengrad">
+				                <h:outputText value="#{geisternetz.laengengrad}" />
+				            </p:column>
+				            <p:column headerText="Größe">
+				                <h:outputText value="#{geisternetz.groesse} m²" />
+				            </p:column>
+				            <p:column headerText="Status" id="statusSpalte">
+				                <h:outputText value="#{geisternetz.status}" />
+				            </p:column>
+				
+							<!-- Spalte für Aktionen zur Statusänderung -->
+				            <p:column headerText="Aktion wählen:">
+						    	<h:selectOneMenu value="#{geisternetzController.ausgewaehlteStatusMap[geisternetz.id]}"
+						                         disabled="#{geisternetz.status eq 'Geborgen' or geisternetz.status eq 'Verschollen'}">
+							        <f:selectItem itemValue="NONE" itemLabel="Aktion wählen" />
+							        
+							        <!-- Option "Geborgen" nur wählbar, wenn der Status "Bergung" ist -->
+							        <f:selectItem itemValue="Geborgen" itemLabel="Geborgen"/>
+							                      
+							        <!-- Option "Verschollen" nur wählbar, wenn der Status "Bergung" ist -->
+							        <f:selectItem itemValue="Verschollen" itemLabel="Verschollen"/>
+				    			</h:selectOneMenu>
+				    			 <!-- Button zur Bestätigung der Statusänderung -->
+				    			<h:commandButton value="Bestätigen" action="#{geisternetzController.statusAktualisieren(geisternetz)}"
+				                     			 disabled="#{geisternetz.status eq 'Geborgen' or geisternetz.status eq 'Verschollen'}">
+				        			<f:ajax execute="@form" render="@form" /> <!-- AJAX-Aufruf zur Ausführung im Formular und Aktualisierung des Formulars -->
+				    			</h:commandButton>
+							</p:column>
+				
+				        </p:dataTable>
+				    </h:form>        
+				</p:tab>
+	        
+        	</p:tabView>
+    	</div>
+    	
+	    <!-- Einbinden des Footers -->
+	    <ui:include src="footer.xhtml" />
+	    
+	</h:body>
+</html>
+
+
+

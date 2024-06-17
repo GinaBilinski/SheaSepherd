@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+	<h:head>
+	    <h:outputStylesheet library="css" name="style.css"/>
+	    <title>Shea Sepherd</title>
+	</h:head>
+	<h:body>
+	
+		<!-- Einbinden der Navigationsleiste -->
+	    <ui:include src="navbar.xhtml" />
+	    
+	    <!-- Bestätigungsseite nach Meldung eines Geisternetzes -->
+	    <div class="main-content">
+	    
+			<h:form>
+			    <p:panelGrid columns="1" styleClass="ui-noborder" style="margin: auto; text-align: center;">
+			        <p:row>
+			            <p:column>
+			                <h1>Danke für Ihre Meldung eines Geisternetzes!</h1>
+			            </p:column>
+			        </p:row>
+			        <p:row>
+			            <p:column style="text-align: center;">
+					<p:graphicImage library="images" name="logo.png" style="width: 60px; height: auto;" />
+			            </p:column>
+			        </p:row>
+			        <p:row>
+			            <p:column>
+			                 <p:button value="Zurück zur Startseite" styleClass="meldenButton ui-button-raised ui-button-warning" outcome="index.xhtml" />
+			            </p:column>
+			        </p:row>
+			    </p:panelGrid>
+			</h:form>
+	    </div>
+	    
+	    <!-- Einbinden des Footers -->
+	    <ui:include src="footer.xhtml" />
+	</h:body>
+</html>
